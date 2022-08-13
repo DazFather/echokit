@@ -78,7 +78,7 @@ func InlineCaller(caption, trigger string, payload ...string) InlineButton {
 	return InlineButton{Text: caption, CallbackData: trigger}
 }
 
-// Wrap anything into a slice of the same type. Expecially useful when dealing with buttons
+// Wrap anything into a slice of the same type. Especially useful when dealing with buttons
 func Wrap[T any](elem T) []T {
 	return []T{elem}
 }
