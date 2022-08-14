@@ -2,21 +2,21 @@ package echokit
 
 import (
 	"os"
-    "path"
+	"path"
 
 	"github.com/NicoNex/echotron/v3"
 )
 
 // DownloadDocument downloads a given document and store it in given directory
 func DownloadDocument(api echotron.API, document echotron.Document, basePath string) (content []byte, err error) {
-    return DownloadFile(api, document.FileID, path.Join(basePath, document.FileName))
+	return DownloadFile(api, document.FileID, path.Join(basePath, document.FileName))
 }
 
 // DownloadFile downloads a file with given ID at the given path
 func DownloadFile(api echotron.API, fileID string, path string) (content []byte, err error) {
 	content, err = FetchFile(api, fileID)
 	if err == nil {
-        err = os.WriteFile(path, content, os.ModePerm)
+		err = os.WriteFile(path, content, os.ModePerm)
 	}
 
 	return
