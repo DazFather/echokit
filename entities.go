@@ -6,6 +6,22 @@ import (
 	"github.com/NicoNex/echotron/v3"
 )
 
+// EntityFilter is a function checks an entity, returning true if pass false otherwise
+type EntityFilter func(entity echotron.MessageEntity) bool
+
+// ExtractEntities extracts the content of the Entities contained inside given
+// message and filtered by given filter function
+func ExtractEntities(message echotron.Message, filter EntityFilter) (extracted []string) {
+	var text = StirngToUft16(message.Text)
+
+	for _, entity := range message.Entities {
+		if entity != nil && filter(*entity) {
+			extracted = append(extracted, grabEntityContent(text, *entity))
+		}
+	}
+	return
+}
+
 // ExtractEntity extract the entity content from a given text
 func ExtractEntity(fromText string, entity echotron.MessageEntity) string {
 	return grabEntityContent(StirngToUft16(fromText), entity)
