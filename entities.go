@@ -22,6 +22,11 @@ func ExtractEntities(message echotron.Message, filter EntityFilter) (extracted [
 	return
 }
 
+// ExtractEntitiesOfType extracts the content of the Entities contained filtered by their type
+func ExtractEntitiesOfType(message echotron.Message, allowedTypes ...echotron.MessageEntityType) []string {
+	return ExtractEntities(message, FilterEntityByType(allowedTypes...))
+}
+
 // ExtractEntity extract the entity content from a given text
 func ExtractEntity(fromText string, entity echotron.MessageEntity) string {
 	return grabEntityContent(StirngToUft16(fromText), entity)
@@ -42,3 +47,20 @@ func grabEntityContent(uft16Text []uint16, entity echotron.MessageEntity) string
 	return Uft16ToStirng(uft16Text[entity.Offset : entity.Offset+entity.Length])
 }
 
+// FilterEntityByType generates an EntityFilter that will return true only if
+// entity's type match at least one of the given ones
+func FilterEntityByType(allowedTypes ...echotron.MessageEntityType) EntityFilter {
+	return func(entity echotron.MessageEntity) bool {
+		return contains(allowedTypes, entity.Type)
+	}
+}
+
+// contains checks if the value of given elem is present on the given list
+func contains[T comparable](list []T, elem T) bool {
+	for _, value := range list {
+		if value == elem {
+			return true
+		}
+	}
+	return false
+}
