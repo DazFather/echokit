@@ -66,6 +66,7 @@ func Arrange[AnyButton InlineButton | KeyButton](columns int, fromList ...AnyBut
 }
 
 // GenInlineKeyboard allows to generate an echotron.ReplyMarkup from a list of inline buttons
+// dividing them into columns. Is the equivalent of doing: InlineKeyboard(Arrange(columns, fromList...))
 func GenInlineKeyboard(columns int, fromList ...InlineButton) echotron.InlineKeyboardMarkup {
 	return InlineKeyboard(Arrange(columns, fromList...))
 }
