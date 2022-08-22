@@ -1,14 +1,16 @@
-package echokit
+package echokit_test
 
 import (
 	"fmt"
+
+	"github.com/DazFather/echokit"
 
 	"github.com/NicoNex/echotron/v3"
 )
 
 func ExampleExtractEntities() {
 	var (
-		filterBig EntityFilter = func(entity echotron.MessageEntity) bool {
+		filterBig echokit.EntityFilter = func(entity echotron.MessageEntity) bool {
 			return entity.Length > 6
 		}
 
@@ -29,7 +31,7 @@ func ExampleExtractEntities() {
 		}
 	)
 
-	fmt.Println(ExtractEntities(message, filterBig)) // Output: [@DazFather #DigitalResistance]
+	fmt.Println(echokit.ExtractEntities(message, filterBig)) // Output: [@DazFather #DigitalResistance]
 }
 
 func ExampleExtractEntitiesOfType() {
@@ -49,8 +51,8 @@ func ExampleExtractEntitiesOfType() {
 		},
 	}
 
-	tags := ExtractEntitiesOfType(message, echotron.HashtagEntity)
-	extracted := ExtractEntitiesOfType(message, echotron.MentionEntity, echotron.HashtagEntity)
+	tags := echokit.ExtractEntitiesOfType(message, echotron.HashtagEntity)
+	extracted := echokit.ExtractEntitiesOfType(message, echotron.MentionEntity, echotron.HashtagEntity)
 
 	fmt.Println(tags)         // Output: [#DigitalResistance]
 	fmt.Println(extracted[0]) // [@DazFather #DigitalResistance]
@@ -63,22 +65,22 @@ func ExampleExtractEntity() {
 		Type:   echotron.MentionEntity,
 	}
 
-	fmt.Println(ExtractEntity("Hi @DazFather!", entity)) // Output: @DazFather
+	fmt.Println(echokit.ExtractEntity("Hi @DazFather!", entity)) // Output: @DazFather
 }
 
 func ExampleStirngToUft16() {
-	var encoded []uint16 = StirngToUft16("Hello, 世界")
+	var encoded []uint16 = echokit.StirngToUft16("Hello, 世界")
 	fmt.Println(encoded) // Output: [72 101 108 108 111 44 32 19990 30028]
 }
 
 func ExampleUft16ToStirng() {
 	var encoded = []uint16{72, 101, 108, 108, 111, 44, 32, 19990, 30028}
-	fmt.Println(Uft16ToStirng(encoded)) // Output: Hello, 世界
+	fmt.Println(echokit.Uft16ToStirng(encoded)) // Output: Hello, 世界
 }
 
 func ExampleFilterEntityByType() {
 	var (
-		filter EntityFilter = FilterEntityByType(echotron.HashtagEntity, echotron.CashtagEntity)
+		filter echokit.EntityFilter = echokit.FilterEntityByType(echotron.HashtagEntity, echotron.CashtagEntity)
 
 		hashtag = echotron.MessageEntity{Type: echotron.HashtagEntity}
 		cashtag = echotron.MessageEntity{Type: echotron.CashtagEntity}

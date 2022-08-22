@@ -1,7 +1,9 @@
-package echokit
+package echokit_test
 
 import (
 	"fmt"
+
+	"github.com/DazFather/echokit"
 
 	"github.com/NicoNex/echotron/v3"
 )
@@ -18,10 +20,10 @@ func ExampleExtractIDOpt() {
 		update = echotron.Update{ChannelPost: &message}
 	)
 
-	fmt.Println(*ExtractIDOpt(message) == echotron.NewMessageID(message.Chat.ID, message.ID))                      // Output: true
-	fmt.Println(*ExtractIDOpt(callback) == echotron.NewInlineMessageID(callback.InlineMessageID))                  // true
-	fmt.Println(*ExtractIDOpt(update) == echotron.NewMessageID(update.ChannelPost.Chat.ID, update.ChannelPost.ID)) // true
+	fmt.Println(*echokit.ExtractIDOpt(message) == echotron.NewMessageID(message.Chat.ID, message.ID))                      // Output: true
+	fmt.Println(*echokit.ExtractIDOpt(callback) == echotron.NewInlineMessageID(callback.InlineMessageID))                  // true
+	fmt.Println(*echokit.ExtractIDOpt(update) == echotron.NewMessageID(update.ChannelPost.Chat.ID, update.ChannelPost.ID)) // true
 
-	var invalid *echotron.MessageIDOptions = ExtractIDOpt(echotron.Message{})
+	var invalid *echotron.MessageIDOptions = echokit.ExtractIDOpt(echotron.Message{})
 	fmt.Println(invalid) // nil
 }

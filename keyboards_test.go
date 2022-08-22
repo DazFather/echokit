@@ -1,13 +1,15 @@
-package echokit
+package echokit_test
 
 import (
 	"fmt"
+
+	"github.com/DazFather/echokit"
 
 	"github.com/NicoNex/echotron/v3"
 )
 
 func ExampleInlineKeyboard() {
-	var markup echotron.InlineKeyboardMarkup = InlineKeyboard([][]InlineButton{
+	var markup echotron.InlineKeyboardMarkup = echokit.InlineKeyboard([][]echokit.InlineButton{
 		// First row
 		{
 			{Text: "Click me", CallbackData: "/command"},
@@ -26,13 +28,13 @@ func ExampleKeyboard() {
 		disposable bool = true
 		// A text that will appear as placeholder on the message input box
 		inputPlaceholder string = "Use the keyboard down below:"
-		buttons                 = [][]KeyButton{
+		buttons                 = [][]echokit.KeyButton{
 			{{Text: "Hello World!"}, {Text: "Send your location", RequestLocation: true}},
 			{{Text: "Send me your contact infos", RequestContact: true}},
 		}
 	)
 
-	var markup echotron.ReplyKeyboardMarkup = Keyboard(disposable, inputPlaceholder, buttons)
+	var markup echotron.ReplyKeyboardMarkup = echokit.Keyboard(disposable, inputPlaceholder, buttons)
 	fmt.Println(markup.Keyboard[0][0].Text)
 	// These will be set to: true
 	fmt.Println(markup.ResizeKeyboard, markup.Selective)
@@ -46,7 +48,7 @@ func ExampleKeyboard() {
 func ExampleKeyboardRemover() {
 	var (
 		globally   bool                         = true
-		kbdRemover echotron.ReplyKeyboardRemove = KeyboardRemover(globally)
+		kbdRemover echotron.ReplyKeyboardRemove = echokit.KeyboardRemover(globally)
 	)
 
 	fmt.Println(kbdRemover.RemoveKeyboard) // Output: true
@@ -54,10 +56,10 @@ func ExampleKeyboardRemover() {
 }
 
 func ExampleArrange() {
-	var buttons [][]KeyButton = Arrange(2, // Arrange following buttons in 2 columns
-		KeyButton{Text: "Hello World!"},
-		KeyButton{Text: "Send your location", RequestLocation: true},
-		KeyButton{Text: "Send me your contact infos", RequestContact: true},
+	var buttons [][]echokit.KeyButton = echokit.Arrange(2, // Arrange following buttons in 2 columns
+		echokit.KeyButton{Text: "Hello World!"},
+		echokit.KeyButton{Text: "Send your location", RequestLocation: true},
+		echokit.KeyButton{Text: "Send me your contact infos", RequestContact: true},
 	)
 
 	// First row
@@ -74,10 +76,10 @@ func ExampleArrange() {
 
 func ExampleGenInlineKeyboard() {
 	// Arrange following buttons in 2 columns and generate an InlineKeyboardMarkup
-	var markup echotron.InlineKeyboardMarkup = GenInlineKeyboard(2,
-		InlineButton{Text: "Click me", CallbackData: "/command"},
-		InlineButton{Text: "Golang", URL: "https://go.dev"},
-		InlineButton{Text: "I'm on the 2nd row", CallbackData: "/lol"},
+	var markup echotron.InlineKeyboardMarkup = echokit.GenInlineKeyboard(2,
+		echokit.InlineButton{Text: "Click me", CallbackData: "/command"},
+		echokit.InlineButton{Text: "Golang", URL: "https://go.dev"},
+		echokit.InlineButton{Text: "I'm on the 2nd row", CallbackData: "/lol"},
 	)
 
 	// First row
@@ -93,7 +95,7 @@ func ExampleGenInlineKeyboard() {
 }
 
 func ExampleInlineCaller() {
-	var button InlineButton = InlineCaller("Click me", "/command", "first", "second")
+	var button echokit.InlineButton = echokit.InlineCaller("Click me", "/command", "first", "second")
 
 	fmt.Println(button.Text)         // Output: Click me
 	fmt.Println(button.CallbackData) // /command first second
@@ -101,9 +103,9 @@ func ExampleInlineCaller() {
 
 func ExampleWrap() {
 	var (
-		strings   []string         = Wrap("Hello")
-		buttonRow []InlineButton   = Wrap(InlineButton{Text: "Hello!"})
-		buttons   [][]InlineButton = Wrap(buttonRow)
+		strings   []string                 = echokit.Wrap("Hello")
+		buttonRow []echokit.InlineButton   = echokit.Wrap(echokit.InlineButton{Text: "Hello!"})
+		buttons   [][]echokit.InlineButton = echokit.Wrap(buttonRow)
 	)
 
 	fmt.Println(strings)   // Output: [Hello]
